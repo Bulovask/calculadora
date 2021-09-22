@@ -1,0 +1,172 @@
+@charset 'UTF-8';
+
+/*variaveis e definições globais*/
+:root {
+	/*variaveis de estilo*/
+	--colorCalc: #777;
+	--colorCalc2: #555;
+	--linGraCalc: linear-gradient(135deg, var(--colorCalc), var(--colorCalc2));
+	--colorDisplay: #7a7;
+	--colorDisplayText: #363;
+	--colorDefaultButtons: #999;
+	--colorDefaultButtonsText: #235;
+	--colorEspecialButtons: #227;
+	--colorEspecialButtonsText: #fff;
+	--colorEspecialButtons2: #722;
+	--colorEspecialButtonsText2: #ffa;
+}
+
+/*Estilização básica*/
+body {
+	margin: 0;
+	padding: 0;
+}
+
+main, section {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/*Estilização complexa*/
+/*calculadora*/
+#calculator {
+	position: fixed;
+	width: 96vw;
+	height: 96vh;
+	top: 2vw;
+	left: 2vh;
+	padding: 2%;
+	
+	border: 1px solid var(--colorCalc);
+	border-top: 0.5px solid white;
+	border-bottom: 5px solid black;
+	border-radius: 10px;
+	background-color: var(--colorCalc);
+	background-image: var(--linGraCalc);
+	
+	/*organizando o #display e o #controls em linhas*/
+	display: grid;
+	grid-template-rows: 1fr 4fr;
+	grid-template-columns: 100%;
+	grid-gap: 2%;
+}
+
+/*visor*/
+#display {
+	border: 1px solid var(--colorDisplay);
+	border-top: 2px solid black;
+	border-bottom: 0.5px solid white;
+	border-radius: 5px;
+	background-color: var(--colorDisplay);
+	color: var(--colorDisplayText);
+	
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	grid-template-columns: 100%;
+}
+
+#expression, #result {
+	font-size: 7vmin;
+	text-align: right;
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+/*controles container*/
+#controls {
+	display: grid;
+	grid-template-rows: 1fr 8fr;
+	grid-template-columns: 1f;
+	grid-gap: 1vmin;
+}
+/*controles básicos*/
+#basic {
+	display: grid;
+	grid-template-rows: repeat(4, 1fr);
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 1vmin;
+	order: 1;
+}
+
+/*botões dos controles básicos*/
+#basic > :is(#n0, #n1, #n2, #n3,
+#n4, #n5, #n6, #n7,
+#n8, #n9, #pl, #mi,
+#ti, #di, #eq, #po) {
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 8vmin;
+	
+	border: 0.5px solid rgb(50%, 50%, 50%);
+	border-top: 0.5px solid white;
+	border-bottom: 2px solid black;
+	border-radius: 20px;
+	background-color: var(--colorDefaultButtons);
+	color: var(--colorDefaultButtonText);
+}
+
+#basic > :is(#n0, #n1, #n2, #n3,
+#n4, #n5, #n6, #n7,
+#n8, #n9, #pl, #mi,
+#ti, #di, #eq, #po):active {
+	position: relative;
+	top: 2px;
+	border-bottom-width: 1px;
+}
+
+#basic > :is(#pl, #mi, #ti, #di) {
+	background-color: var(--colorEspecialButtons);
+	color: var(--colorEspecialButtonsText);
+}
+
+#basic > #eq {
+	background-color: var(--colorEspecialButtons2);
+	color: var(--colorEspecialButtonsText2);
+}
+
+#n0 {order: 13;}
+#n1 {order: 0;}
+#n2 {order: 1;}
+#n3 {order: 2;}
+#n4 {order: 4;}
+#n5 {order: 5;}
+#n6 {order: 6;}
+#n7 {order: 8;}
+#n8 {order: 9;}
+#n9 {order: 10;}
+#pl {order: 3;}
+#mi {order: 7;}
+#ti {order: 11;}
+#di {order: 15;}
+#eq {order: 14;}
+#po {order: 12;}
+
+/*botões dos controles de manipulação*/
+#manipulation {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	grid-gap: 1vmin;
+	order: 0;
+}
+
+#manipulation > :is(#deleted, #clear, #openP, #closeP) {
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 5vmin;
+	
+	border: 0.5px solid rgb(50%, 50%, 50%);
+	border-top: 0.5px solid white;
+	border-bottom: 2px solid black;
+	border-radius: 20px;
+	background-color: var(--colorDefaultButtons);
+	color: var(--colorDefaultButtonText);
+}
+
+
+#manipulation > :is(#deleted, #clear, #openP, #closeP):active {
+	position: relative;
+	top: 2px;
+	border-bottom-width: 1px;
+}

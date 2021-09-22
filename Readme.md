@@ -1,0 +1,1 @@
+Calculadora Simples, usei a math.js, para avaliar as expressões.
