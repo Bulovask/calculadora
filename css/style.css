@@ -14,6 +14,7 @@
 	--colorEspecialButtonsText: #fff;
 	--colorEspecialButtons2: #722;
 	--colorEspecialButtonsText2: #ffa;
+	--fontSizeButtons: 7vmin;
 }
 
 /*Estilização básica*/
@@ -32,11 +33,6 @@ main, section {
 /*calculadora*/
 #calculator {
 	position: fixed;
-	width: 96vw;
-	height: 96vh;
-	top: 2vh;
-	left: 2vw;
-	padding: 2%;
 	box-sizing: border-box;
 	
 	border: 1px solid var(--colorCalc);
@@ -71,14 +67,14 @@ main, section {
 	display: flex;
 	flex-direction: row-reverse;
 	font-family: Monospace;
-	font-size: 9vmin;
+	font-size: 8vmin;
 	text-align: right;
 	overflow: scroll;
 	white-space: nowrap;
 }
 
 #result {
-	font-size: 7vmin;
+	font-size: 6vmin;
 }
 
 /*controles container*/
@@ -104,7 +100,7 @@ main, section {
 #ti, #di, #eq, #po) {
 	padding: 0;
 	box-sizing: border-box;
-	font-size: 8vmin;
+	font-size: 6vmin;
 	
 	border: 0.5px solid rgb(50%, 50%, 50%);
 	border-top: 0.5px solid white;
@@ -177,4 +173,25 @@ main, section {
 	position: relative;
 	top: 2px;
 	border-bottom-width: 1px;
+}
+
+/*Redimensionando #calculator conforme a orientação*/
+@media (orientation: portrait) {
+	#calculator {
+		width: 96vw;
+		height: 96vh;
+		top: 2vh;
+		left: 2vw;
+		padding: 2%;
+	}
+}
+
+@media (orientation: landscape) {
+	#calculator {
+		width: 40vw;
+		height: 96vh;
+		top: 2vh;
+		left: 30vw;
+		padding: 2%;
+	}
 }

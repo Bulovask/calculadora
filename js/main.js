@@ -58,10 +58,19 @@ equal.onclick   = expressionEvaluate;
 equal.ondblclick= upResultToExpression;
 //clicando nas teclas do controle de manipulação
 deleted.onclick = () => {
+	//testa se tem result estar preenchido
+	//Apaga o result
 	if(result != null) {
 		result = null;
 		updateDisplay('result');
 	}
+	//Testa se expression é NaN ou ±Infinity
+	//Apaga NaN ou Infinity
+	else if((isNaN(expression) && typeof expression == 'number') || expression == Infinity || expression == -Infinity) {
+		expression = null
+		updateDisplay('result expression');
+	}
+	//Apaga o ultimo digito
 	else if(expression.length > 0) {
 		expression = expression.substring(0,expression.length - 1) || null;
 		updateDisplay('result expression');
@@ -118,9 +127,9 @@ function addCharExpression(char) {
 			if (o > c) {return true}
 			return false;
 		}
-		//testa se o primeiro digito depois de: +, -, *, /, (, )
+		//testa se o primeiro digito depois de: +, -, *, /, (, ) é 0
 		//testa se char é digito numerico
-		if((iszero.test(expression) || expression == 0) && digit.test(char)) {
+		if((iszero.test(expression) || expression == '0') && digit.test(char)) {
 			expression = expression.slice(0, expression.length - 1);
 			add();
 		}
