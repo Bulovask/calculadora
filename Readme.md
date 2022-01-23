@@ -36,6 +36,4 @@ Para vizualizar a calculadora [clique aqui](https://bulovask.github.io/calculado
 Meu [LinkedIn](https://www.linkedin.com/in/ageu-assun%C3%A7%C3%A3o-9a2958203)
 
 Meu [Gmail](mailto:ageuassuncaosimoesgalindo@gmail.com)
-=======
-Calculadora Simples, usei a math.js, para avaliar as expressões.
-<a href="https://bulovask.github.io/calculadora/">Veja o projeto funcionando!!!</a>
+
