@@ -34,9 +34,10 @@ main, section {
 	position: fixed;
 	width: 96vw;
 	height: 96vh;
-	top: 2vw;
-	left: 2vh;
+	top: 2vh;
+	left: 2vw;
 	padding: 2%;
+	box-sizing: border-box;
 	
 	border: 1px solid var(--colorCalc);
 	border-top: 0.5px solid white;
@@ -67,10 +68,17 @@ main, section {
 }
 
 #expression, #result {
-	font-size: 7vmin;
+	display: flex;
+	flex-direction: row-reverse;
+	font-family: Monospace;
+	font-size: 9vmin;
 	text-align: right;
 	overflow: scroll;
 	white-space: nowrap;
+}
+
+#result {
+	font-size: 7vmin;
 }
 
 /*controles container*/

@@ -47,16 +47,27 @@ point.onclick   = () => {addCharExpression('.')}
 plus.onclick    = () => {addCharExpression('+')}
 minus.onclick   = () => {addCharExpression('-')}
 times.onclick   = () => {addCharExpression('*')}
+times.ondblclick= () => {
+	if(expression[expression.length - 1] == '*') {
+		expression = expression.slice(0, expression.length - 1);
+	}
+	addCharExpression('^');
+}
 divided.onclick = () => {addCharExpression('/')}
 equal.onclick   = expressionEvaluate;
+equal.ondblclick= upResultToExpression;
 //clicando nas teclas do controle de manipulação
 deleted.onclick = () => {
-	if(expression.length > 0) {
+	if(result != null) {
+		result = null;
+		updateDisplay('result');
+	}
+	else if(expression.length > 0) {
 		expression = expression.substring(0,expression.length - 1) || null;
-		updateDisplay();
+		updateDisplay('result expression');
 	}
 }
-clear.onclick   = () => {expression = null; updateDisplay('result expression')}
+clear.onclick   = () => {expression = null; result = null; updateDisplay('result expression')}
 openP.onclick   = () => {addCharExpression('(')}
 closeP.onclick  = () => {addCharExpression(')')}
 
@@ -70,10 +81,11 @@ const digit        = /\d/;
 const lastDigit    = /\d$/;
 const lastPoint    = /\.$/;
 const numberOne    = /^\d+$/;
-const numberInvert = /^\d+[\+\-\*\/\(/)]/;
-const lastOperati  = /[\+\-\*\/\(\)]$/;
-const operati      = /[\+\-\*\/\(]/;
+const numberInvert = /^\d+[\+\-\*\/\(/)\^]/;
+const lastOperati  = /[\+\-\*\/\(\)\^]$/;
+const operati      = /[\+\-\*\/\(\^]/;
 const operatiPure  = /[\+\-\*\/\^]/;
+const iszero    = /[\+\-\*\/\(\)\^]0$/;
 
 //evento de digitar
 //colocando o valor digitado na expression
@@ -89,6 +101,8 @@ function addCharExpression(char) {
 	}
 	//depois do primeiro caractere
 	else {
+		//tamanho inicial da expressão
+		const initLengthExpr = expression.length
 		//simplificando tarefas
 		const add = () => {expression += char}
 		const invert = (str) => {
@@ -104,11 +118,16 @@ function addCharExpression(char) {
 			if (o > c) {return true}
 			return false;
 		}
-		
+		//testa se o primeiro digito depois de: +, -, *, /, (, )
+		//testa se char é digito numerico
+		if((iszero.test(expression) || expression == 0) && digit.test(char)) {
+			expression = expression.slice(0, expression.length - 1);
+			add();
+		}
 		//0 A 9
 		//testa se o ultimo digito é um número, +, -, *, /, (, )
 		//e se char é um digito numerico
-		if((lastDigit.test(expression) || lastPoint.test(expression) || lastOperati.test(expression))&& digit.test(char)) {add();}
+		else if((lastDigit.test(expression) || lastPoint.test(expression) || lastOperati.test(expression))&& digit.test(char)) {add();}
 		//PONTO .
 		//testa se o ultimo número tem ponto, 
 		//se não acrescenta um ponto caso char = '.'
@@ -123,14 +142,16 @@ function addCharExpression(char) {
 		else if(expression[expression.length - 1] == '(' && firstChar.test(char)) {add()}
 		//testa se ultimo caractere é + - * / para poder colocar o (
 		else if(operatiPure.test(expression[expression.length - 1]) && char == '(') {add()}
+		
+		//Testa se tamanho inicial da expressão é menor que tamanho final
+		//Se sim então resete o displayResult
+		if(initLengthExpr < expression.length) {
+			result = null
+			updateDisplay('result');
+		}
 	}
 	//atualize o display
 	updateDisplay('expression');
-	//se o ultimo digito for um numero ou parenteses ')' atualize
-	//o displayResult
-	if(lastDigit.test(expression) || expression[expression.length - 1] == ')') {
-		expressionEvaluate();
-	}
 }
 
 //resolvendo calculos
@@ -139,24 +160,55 @@ function expressionEvaluate() {
 	updateDisplay('result');
 }
 
+//Função para subir o result para expression
+function upResultToExpression() {
+	if(result != null) {
+		expression = result;
+		result = null
+		updateDisplay('result expression');
+	}
+}
+
+//função para formatar o expression para uma melhor visualização
+function formatExpression() {
+	if(expression != null){
+		return String(expression).replace(/\*/g, '×').replace(/\//g, '÷').replace(/Infinity/g, '∞')
+	}
+	return '';
+		
+}
+
+//função para formatar o result para uma melhor visualização
+function formatResult() {
+	if(result != null){
+		return String(result).replace('Infinity', '∞')
+	}
+	return '';
+		
+}
+
 //função de atualização do display
-//deve ser chamada somente quando ouver necessidade
+//deve ser chamada somente quando houver necessidade
 function updateDisplay(part) {
 	switch(part) {
 		case 'result':
-			displayResult.innerText = result;
+			displayResult.innerText = formatResult();
 		break;
 		case 'expression':
-			displayExpression.innerText = expression;
+			displayExpression.innerText = formatExpression();
 		break;
 		default:
 			result = null;
-			displayResult.innerText = result;
-			displayExpression.innerText = expression;
+			displayResult.innerText = formatResult();
+			displayExpression.innerText = formatExpression();
 		break;
 	}
 }
 
+//Inserindo um zero inicial
+addCharExpression('0')
 
-//debugando
-
+//Executo para retirar o delay, parece que
+//math.evaluate em sua primeira execução apresenta
+//um delay consideravel, para resolver isso se executa uma vez
+math.evaluate('0')
