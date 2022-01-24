@@ -32,7 +32,7 @@ main, section {
 /*Estilização complexa*/
 /*calculadora*/
 #calculator {
-	position: fixed;
+	position: absolute;
 	box-sizing: border-box;
 	
 	border: 1px solid var(--colorCalc);
