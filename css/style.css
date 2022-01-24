@@ -44,7 +44,7 @@ main, section {
 	
 	/*organizando o #display e o #controls em linhas*/
 	display: grid;
-	grid-template-rows: 1fr 4fr;
+	grid-template-rows: 18vh auto;
 	grid-template-columns: 100%;
 	grid-gap: 2%;
 }
@@ -68,7 +68,6 @@ main, section {
 	flex-direction: row-reverse;
 	font-family: Monospace;
 	font-size: 8vmin;
-	text-align: right;
 	overflow: scroll;
 	white-space: nowrap;
 }

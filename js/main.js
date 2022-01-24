@@ -1,5 +1,6 @@
 //dedico esse código à Nossa Senhora
 
+//PRIMEIRA PARTE: &PARTE1
 //abreviando funções e comandos
 function $(selector) {
 	return document.querySelector(selector);
@@ -96,7 +97,7 @@ const operati      = /[\+\-\*\/\(\^]/;
 const operatiPure  = /[\+\-\*\/\^]/;
 const iszero    = /[\+\-\*\/\(\)\^]0$/;
 
-//evento de digitar
+//Função executada quando o usuario interage com os botões
 //colocando o valor digitado na expression
 //e atualizando o displayExpression
 function addCharExpression(char) {
@@ -112,8 +113,9 @@ function addCharExpression(char) {
 	else {
 		//tamanho inicial da expressão
 		const initLengthExpr = expression.length
-		//simplificando tarefas
+		//SIMPLIFICANDO TAREFAS
 		const add = () => {expression += char}
+		//retorna uma string com a expression invertida
 		const invert = (str) => {
 			let newStr = '';
 			for(let i = str.length - 1; i >= 0; i--) {
@@ -121,11 +123,27 @@ function addCharExpression(char) {
 			}
 			return newStr;
 		}
+		//Testa se tem parenteses abertos
 		const testAddOpenP = () => {
 			o = (expression.match(/\(/g) || []).length;
 			c = (expression.match(/\)/g) || []).length;
 			if (o > c) {return true}
 			return false;
+		}
+		//Testa se a expressao está englobada entre parenteses
+		const testEncompassedExpression = () => {
+			if(expression[0] == '(' && expression[expression.length - 1] == ')') {
+				let n = 0;
+				for(let l = 0; l < expression.length; l++) {
+					ch = expression[l];
+					if(ch == '(') n++;
+					else if(ch == ')') n--;
+					if(n == 0 && l != expression.length - 1) {
+						return false;
+					}
+				}
+				return true;
+			}
 		}
 		//testa se o primeiro digito depois de: +, -, *, /, (, ) é 0
 		//testa se char é digito numerico
@@ -145,8 +163,15 @@ function addCharExpression(char) {
 		//+ - * / ( )
 		//testa se ultimo digito é numero ou closeParenteses e se char é um desses + - * ...
 		else if((lastDigit.test(expression) || expression[expression.length - 1] == ')') && operati.test(char)) {add()}
-		//se char = ')' testa se ultimo digito é um numero ou )
+		//se char = ')' testa se ultimo digito é um numero ou ) e se o numero de '(' é menor que o numero de ')', se sim então acrescente no final
 		else if(char == ')' && (lastDigit.test(expression) || expression[expression.length - 1] == ')') && testAddOpenP()) {add()}
+		//Englobar expressão inteira entre parenteses se char for ')' e o numero de '(' for igual ')' e o ultimo digito for numerico ou ')'
+		else if(char == ')' && (lastDigit.test(expression) || expression[expression.length - 1] == ')') && !testAddOpenP()) {
+			//Testa se a expressão não está englobada por parenteses
+			if(!testEncompassedExpression()) {
+				expression = '(' + expression + ')';
+			}
+		}
 		//adicionar + - ou ( depois do (
 		else if(expression[expression.length - 1] == '(' && firstChar.test(char)) {add()}
 		//testa se ultimo caractere é + - * / para poder colocar o (
@@ -163,6 +188,7 @@ function addCharExpression(char) {
 	updateDisplay('expression');
 }
 
+//SEGUNDA PARTE: &PARTE2
 //resolvendo calculos
 function expressionEvaluate() {
 	result = math.evaluate(expression)
