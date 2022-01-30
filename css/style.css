@@ -68,9 +68,14 @@ main, section {
 	flex-direction: row-reverse;
 	font-family: Monospace;
 	font-size: 8vmin;
-	overflow: scroll;
+	overflow-x: scroll;
 	white-space: nowrap;
 	scrollbar-width: none;
+}
+
+:is(#expression, #result)::-webkit-scrollbar {
+	background: red;
+	height: 0;
 }
 
 #result {
