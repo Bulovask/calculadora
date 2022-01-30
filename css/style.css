@@ -70,6 +70,7 @@ main, section {
 	font-size: 8vmin;
 	overflow: scroll;
 	white-space: nowrap;
+	scrollbar-width: none;
 }
 
 #result {
